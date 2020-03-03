@@ -31,9 +31,22 @@ def test_api_get_not_exist():
     res=requests.get(f"{url}{bad_id}")
     assert res.status_code == 404
 
-#пример параметризации , запуск функции с разными ID
+#пример параметризации , запуск функции с разными ID 
 data_id=[2,6,8]
 @pytest.mark.parametrize("id",data_id)
 def test_api_get_status(id):   # валидация кода ответа
     resp=requests.get(f"https://reqres.in/api/users/{id}")
     assert resp.status_code == 200
+
+#пример №2 параметризации , запуск функции с разными headers (эмитация работы разных браузеров)
+headers = [({"User-Agent": "Mozilla/5.0"}),
+           ({'User-Agent': "Google Chrome 53"})]
+
+@pytest.mark.parametrize("headers",headers)
+def test_api_get_status_headers(headers):   # валидация кода ответа
+    resp=requests.get(url,headers=headers)
+    assert resp.status_code == 200
+
+
+
+
